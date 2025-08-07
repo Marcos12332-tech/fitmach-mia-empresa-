@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FitMach - Encuentra tu entrenador ideal</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
+    <h1 style="color: #007b7f;">FitMach</h1>
+    <p>Introduce tus datos para encontrar un entrenador compatible contigo:</p>
+
+    <form style="background-color: white; padding: 20px; border-radius: 10px; width: 300px;">
+        <label>Edad:<br><input type="number" name="edad" required></label><br><br>
+        <label>Peso (kg):<br><input type="number" name="peso" required></label><br><br>
+        <label>Altura (cm):<br><input type="number" name="altura" required></label><br><br>
+        <label>Nivel de actividad:<br>
+            <select name="actividad">
+                <option value="sedentario">Sedentario</option>
+                <option value="ligero">Ligero</option>
+                <option value="moderado">Moderado</option>
+                <option value="intenso">Intenso</option>
+            </select>
+        </label><br><br>
+        <label>Meta:<br><input type="text" name="meta" placeholder="Ej. Ganar músculo" required></label><br><br>
+        <button type="submit" style="background-color: #007b7f; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Buscar entrenadores</button>
+    </form>
+</body>
+</html>
