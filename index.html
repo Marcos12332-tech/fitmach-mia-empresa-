@@ -16,9 +16,9 @@
     body {
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
-      background: linear-gradient(to bottom right, #fff3e0, #ffe5b4);
-      background-image: url('https://www.transparenttextures.com/patterns/white-wall.png');
+      height: 100vh;
+      background: url('https://www.transparenttextures.com/patterns/cubes.png') repeat;
+      background-color: #ffe5b4;
     }
 
     header {
@@ -38,28 +38,29 @@
       z-index: 1000;
     }
 
-    header span:first-child {
-      color: #ff8c42;
-      background-color: white;
-      padding: 0 5px;
-      border-radius: 4px;
-    }
-
     .auth-buttons {
       display: flex;
       gap: 10px;
     }
 
     .auth-buttons button {
-      padding: 6px 12px;
+      padding: 8px 12px;
       font-size: 14px;
       border-radius: 4px;
-      cursor: pointer;
       border: none;
+      cursor: pointer;
     }
 
-    .login { background-color: white; color: #ff8c42; }
-    .register { background-color: #ff8c42; color: white; }
+    .btn-login {
+      background-color: white;
+      color: #ff8c42;
+    }
+
+    .btn-register {
+      background-color: #fff;
+      color: white;
+      background-color: orange;
+    }
 
     aside {
       width: 220px;
@@ -83,6 +84,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      transition: background 0.3s ease;
     }
 
     aside button:hover {
@@ -93,12 +95,11 @@
       margin-left: 220px;
       padding: 80px 30px 30px 30px;
       flex-grow: 1;
-      transition: all 0.3s ease;
+      transition: all 0.5s ease;
     }
 
     .section {
       display: none;
-      animation: fadeIn 0.5s ease-in;
     }
 
     .section.active {
@@ -132,38 +133,34 @@
 
     .entrenador-card {
       background-color: white;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
     .entrenador-card img {
       width: 100%;
       max-width: 150px;
-      border-radius: 8px;
+      border-radius: 50%;
+      margin-bottom: 10px;
     }
 
     footer {
-      background-color: #ff8c42;
-      color: white;
-      text-align: center;
-      padding: 15px;
       margin-top: auto;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      padding: 20px;
+      background-color: #ff8c42;
+      text-align: center;
+      color: white;
     }
   </style>
 </head>
 <body>
   <header>
-    <div><span>Fit</span><span style="color:white">Mach</span></div>
+    <div><span style="color:#ff8c42;background:white;padding:0 5px;border-radius:4px;">Fit</span><span style="color:white">Mach</span></div>
     <div class="auth-buttons">
-      <button class="login">Iniciar sesión</button>
-      <button class="register">Registrarse</button>
+      <button class="btn-login">Iniciar sesión</button>
+      <button class="btn-register">Registrarse</button>
     </div>
   </header>
 
@@ -176,7 +173,7 @@
   <main>
     <div id="buscar" class="section active">
       <h2>Buscar entrenadores</h2>
-      <form onsubmit="event.preventDefault(); buscarEntrenadores();">
+      <form onsubmit="buscarEntrenadores(event)">
         <input type="number" placeholder="Edad" required />
         <input type="number" placeholder="Peso (kg)" required />
         <input type="number" placeholder="Altura (cm)" required />
@@ -187,51 +184,36 @@
           <option>Activo</option>
           <option>Muy activo</option>
         </select>
-        <input id="objetivoUsuario" type="text" placeholder="Objetivo (Ej: perder grasa, ganar volumen...)" required />
+        <input type="text" placeholder="Objetivo (escribe tu meta)" required />
         <button type="submit">Buscar entrenadores</button>
       </form>
-      <div id="resultadosEntrenadores"></div>
+      <div id="resultados-entrenadores"></div>
     </div>
 
     <div id="entrenador" class="section">
       <h2>Unirme como entrenador</h2>
-      <form onsubmit="event.preventDefault(); registrarEntrenador();">
-        <input type="text" id="nombreEntrenador" placeholder="Nombre completo" required />
-        <input type="number" id="edadEntrenador" placeholder="Edad" required />
-        <input type="text" id="especialidadEntrenador" placeholder="Especialidad (Ej: ganar volumen, pérdida de grasa...)" required />
-        <textarea id="descripcionEntrenador" placeholder="Descripción / experiencia" rows="5" required></textarea>
+      <form onsubmit="registrarEntrenador(event)">
+        <input type="text" placeholder="Nombre completo" required />
+        <input type="number" placeholder="Edad" required />
+        <input type="text" placeholder="Especialidad (Ej: ganar volumen, pérdida de grasa...)" required />
+        <textarea placeholder="Descripción / experiencia" rows="5" required></textarea>
         <button type="submit">Unirme a FitMach como entrenador</button>
       </form>
     </div>
 
     <div id="perfil" class="section">
       <h2>Tu perfil</h2>
-      <div id="datosPerfil">
-        <p>Aquí aparecerá tu información personal, configuración y progreso.</p>
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>🔥 Frase motivadora del día</h3>
-      <p>“El dolor es temporal, el orgullo es para siempre.”</p>
-    </div>
-
-    <div class="section">
-      <h3>💬 Opiniones de usuarios</h3>
-      <p>“Gracias a FitMach he conseguido bajar 10kg en 3 meses.” - Ana M.</p>
-      <p>“Mi entrenador es muy atento y me hace seguimiento cada semana.” - Luis G.</p>
-    </div>
-
-    <div class="section">
-      <h3>👥 Actualmente hay <span id="contador">0</span> entrenadores registrados.</h3>
+      <div id="info-perfil">Inicia sesión o regístrate para ver tu perfil.</div>
     </div>
   </main>
 
   <footer>
-    <p>Contacto: contacto@fitmach.com | Síguenos en redes: @FitMach</p>
+    <p>Síguenos en redes sociales | Contacto: contacto@fitmach.com</p>
+    <p>© 2025 FitMach. Todos los derechos reservados.</p>
   </footer>
 
   <script>
+    let usuario = null;
     let entrenadores = [];
 
     function showSection(id) {
@@ -239,51 +221,58 @@
       document.getElementById(id).classList.add('active');
     }
 
-    function registrarEntrenador() {
-      const nombre = document.getElementById('nombreEntrenador').value;
-      const edad = document.getElementById('edadEntrenador').value;
-      const especialidad = document.getElementById('especialidadEntrenador').value.toLowerCase();
-      const descripcion = document.getElementById('descripcionEntrenador').value;
-
-      const nuevoEntrenador = { nombre, edad, especialidad, descripcion };
-      entrenadores.push(nuevoEntrenador);
-
-      document.getElementById('contador').innerText = entrenadores.length;
-
-      document.getElementById('datosPerfil').innerHTML = `
-        <h3>${nombre}</h3>
-        <p>Edad: ${edad}</p>
-        <p>Especialidad: ${especialidad}</p>
-        <p>${descripcion}</p>
-      `;
-
-      alert('¡Entrenador registrado con éxito!');
+    function registrarEntrenador(e) {
+      e.preventDefault();
+      const datos = Array.from(e.target.elements).map(el => el.value);
+      const nuevo = {
+        nombre: datos[0],
+        edad: datos[1],
+        especialidad: datos[2],
+        descripcion: datos[3],
+        imagen: 'https://via.placeholder.com/150'
+      };
+      entrenadores.push(nuevo);
+      usuario = nuevo;
+      alert('Entrenador registrado correctamente.');
+      actualizarPerfil();
       showSection('perfil');
     }
 
-    function buscarEntrenadores() {
-      const objetivo = document.getElementById('objetivoUsuario').value.toLowerCase();
-      const resultados = document.getElementById('resultadosEntrenadores');
-      resultados.innerHTML = '';
-
-      const coincidencias = entrenadores.filter(e => e.especialidad.includes(objetivo));
-
-      if (coincidencias.length === 0) {
-        resultados.innerHTML = '<p>No se encontraron entrenadores con ese objetivo.</p>';
+    function buscarEntrenadores(e) {
+      e.preventDefault();
+      const objetivo = e.target.elements[4].value.toLowerCase();
+      const resultados = entrenadores.filter(ent => ent.especialidad.toLowerCase().includes(objetivo));
+      const contenedor = document.getElementById('resultados-entrenadores');
+      contenedor.innerHTML = '';
+      if (resultados.length === 0) {
+        contenedor.innerHTML = '<p>No se encontraron entrenadores con ese objetivo.</p>';
         return;
       }
-
-      coincidencias.forEach(e => {
-        resultados.innerHTML += `
+      resultados.forEach(ent => {
+        contenedor.innerHTML += `
           <div class="entrenador-card">
-            <img src="https://via.placeholder.com/150" alt="Entrenador" />
-            <h4>${e.nombre}</h4>
-            <p><strong>Especialidad:</strong> ${e.especialidad}</p>
-            <p>${e.descripcion}</p>
+            <img src="${ent.imagen}" alt="Entrenador">
+            <h3>${ent.nombre}</h3>
+            <p><strong>Especialidad:</strong> ${ent.especialidad}</p>
+            <p>${ent.descripcion}</p>
             <button>Contactar</button>
           </div>
         `;
       });
+    }
+
+    function actualizarPerfil() {
+      const div = document.getElementById('info-perfil');
+      if (!usuario) {
+        div.innerHTML = 'Inicia sesión o regístrate para ver tu perfil.';
+      } else {
+        div.innerHTML = `
+          <h3>${usuario.nombre}</h3>
+          <p><strong>Edad:</strong> ${usuario.edad}</p>
+          <p><strong>Especialidad:</strong> ${usuario.especialidad}</p>
+          <p>${usuario.descripcion}</p>
+        `;
+      }
     }
   </script>
 </body>
