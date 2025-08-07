@@ -3,196 +3,127 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FitMach - Encuentra tu entrenador</title>
+  <title>FitMach</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      padding: 20px;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
     }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      font-weight: bold;
-    }
-    input, select {
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .trainer {
-      background: #e6e6e6;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 15px;
+      height: 60px;
+      background-color: #ffe5b4;
       display: flex;
       align-items: center;
-      gap: 15px;
+      padding: 0 20px;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .trainer img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
+
+    header h1 {
+      font-size: 28px;
     }
-    .trainer-info {
-      flex: 1;
+
+    header h1 span:first-child {
+      color: #ff8800;
     }
-    .trainer h3 {
-      margin: 0 0 5px 0;
+
+    header h1 span:last-child {
+      color: white;
     }
-    .registro {
-      margin-top: 40px;
-      border-top: 1px solid #ccc;
-      padding-top: 20px;
+
+    nav {
+      width: 220px;
+      background-color: #f7f7f7;
+      padding-top: 80px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      padding: 15px 20px;
+      font-size: 16px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    nav button:hover {
+      background-color: #eaeaea;
+    }
+
+    main {
+      margin-left: 220px;
+      margin-top: 60px;
+      padding: 30px;
+      width: 100%;
+      overflow-y: auto;
+    }
+
+    section {
+      display: none;
+    }
+
+    section.active {
+      display: block;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>FitMach</h1>
-    <p>Completa tu información para encontrar entrenadores compatibles:</p>
+  <header>
+    <h1><span>Fit</span><span>Mach</span></h1>
+  </header>
 
-    <div class="form-group">
-      <label for="edad">Edad</label>
-      <input type="number" id="edad" placeholder="Tu edad" />
-    </div>
+  <nav>
+    <button onclick="showSection('buscar')"><i class="fas fa-search"></i> Buscar</button>
+    <button onclick="showSection('entrenador')"><i class="fas fa-dumbbell"></i> Espacio entrenador</button>
+    <button onclick="showSection('perfil')"><i class="fas fa-user"></i> Perfil</button>
+  </nav>
 
-    <div class="form-group">
-      <label for="peso">Peso (kg)</label>
-      <input type="number" id="peso" placeholder="Tu peso" />
-    </div>
+  <main>
+    <section id="buscar" class="active">
+      <h2>Buscar entrenadores</h2>
+      <!-- Aquí irá el formulario de búsqueda y resultados -->
+    </section>
 
-    <div class="form-group">
-      <label for="altura">Altura (cm)</label>
-      <input type="number" id="altura" placeholder="Tu altura" />
-    </div>
+    <section id="entrenador">
+      <h2>Registro de Entrenador</h2>
+      <!-- Aquí irá el formulario de ser entrenador -->
+    </section>
 
-    <div class="form-group">
-      <label for="meta">Meta</label>
-      <select id="meta">
-        <option value="músculo">Ganar músculo</option>
-        <option value="definición">Perder grasa / Definición</option>
-        <option value="resistencia">Mejorar resistencia</option>
-      </select>
-    </div>
-
-    <button onclick="buscarEntrenadores()">Buscar entrenadores</button>
-
-    <div id="resultados"></div>
-
-    <div class="registro">
-      <h2>¿Eres entrenador?</h2>
-      <p>Regístrate para aparecer en FitMach:</p>
-      <form onsubmit="registrarEntrenador(event)">
-        <div class="form-group">
-          <label for="nombre-entrenador">Nombre</label>
-          <input type="text" id="nombre-entrenador" required />
-        </div>
-        <div class="form-group">
-          <label for="especialidad-entrenador">Especialidad</label>
-          <select id="especialidad-entrenador">
-            <option value="músculo">Ganar músculo</option>
-            <option value="definición">Perder grasa</option>
-            <option value="resistencia">Mejorar resistencia</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="descripcion-entrenador">Descripción</label>
-          <input type="text" id="descripcion-entrenador" required />
-        </div>
-        <div class="form-group">
-          <label for="whatsapp-entrenador">WhatsApp</label>
-          <input type="text" id="whatsapp-entrenador" placeholder="Ej: 34612345678" required />
-        </div>
-        <button type="submit">Registrarme</button>
-      </form>
-    </div>
-  </div>
+    <section id="perfil">
+      <h2>Tu Perfil</h2>
+      <!-- Aquí irá información del usuario o entrenador -->
+    </section>
+  </main>
 
   <script>
-    let entrenadores = [
-      {
-        nombre: "David",
-        especialidad: "músculo",
-        descripcion: "Experto en volumen y fuerza",
-        imagen: "https://randomuser.me/api/portraits/men/32.jpg",
-        whatsapp: "34611122334"
-      },
-      {
-        nombre: "Laura",
-        especialidad: "definición",
-        descripcion: "Especialista en pérdida de grasa",
-        imagen: "https://randomuser.me/api/portraits/women/65.jpg",
-        whatsapp: "34622233445"
-      },
-      {
-        nombre: "Carlos",
-        especialidad: "resistencia",
-        descripcion: "Corre maratones y mejora tu cardio",
-        imagen: "https://randomuser.me/api/portraits/men/44.jpg",
-        whatsapp: "34633344556"
-      },
-    ];
-
-    function buscarEntrenadores() {
-      const meta = document.getElementById('meta').value;
-      const contenedor = document.getElementById('resultados');
-      contenedor.innerHTML = "";
-
-      const filtrados = entrenadores.filter(ent => ent.especialidad === meta);
-
-      if (filtrados.length === 0) {
-        contenedor.innerHTML = '<p>No se encontraron entrenadores compatibles.</p>';
-        return;
-      }
-
-      filtrados.forEach(ent => {
-        const div = document.createElement('div');
-        div.className = 'trainer';
-        div.innerHTML = `
-          <img src="${ent.imagen}" alt="${ent.nombre}" />
-          <div class="trainer-info">
-            <h3>${ent.nombre}</h3>
-            <p>${ent.descripcion}</p>
-            <a href="https://wa.me/${ent.whatsapp}" target="_blank">
-              <button>Chatear</button>
-            </a>
-          </div>
-        `;
-        contenedor.appendChild(div);
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(sec => {
+        sec.classList.remove('active');
       });
-    }
-
-    function registrarEntrenador(event) {
-      event.preventDefault();
-      const nombre = document.getElementById('nombre-entrenador').value;
-      const especialidad = document.getElementById('especialidad-entrenador').value;
-      const descripcion = document.getElementById('descripcion-entrenador').value;
-      const whatsapp = document.getElementById('whatsapp-entrenador').value;
-      const imagen = "https://randomuser.me/api/portraits/lego/1.jpg";
-
-      entrenadores.push({ nombre, especialidad, descripcion, imagen, whatsapp });
-      alert("¡Entrenador registrado correctamente!");
+      document.getElementById(id).classList.add('active');
     }
   </script>
 </body>
